@@ -1,0 +1,75 @@
+    {% block form %}
+    <!--Pagina principal -->
+    <div class="alert alert-success" id='registrado' role="alert">
+            Usuario registrado
+    </div>
+    <div class="alert alert-success" id='iniciado' role="alert">
+            Sesion Iniciada
+    </div>
+    <div class="form-group container">
+            <label for="usuarioEjemplo">Nombre de usuario</label>
+            <input type="text" class="form-control" id="usuarioEjemplo" placeholder="Nombre de usuario">
+            <label for="contraseñaEjemplo">Contraseña</label>
+            <input type="password" class="form-control" id="contraseñaEjemplo">
+            <button type="button" id='reg' class="btn btn-primary btn-lg btn-block mt-5">Registrar</button>
+            <button type="button" id='inc' class="btn btn-secondary btn-lg btn-block mt-3">Iniciar sesion </button>
+        </div>
+    <!--End Pagina Principal-->
+
+
+        <script src="https://code.jquery.com/jquery-3.4.1.js"></script> <!--Version completa de JQuery para usar las querys de AJAX-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    
+    <script>
+            $(document).ready(function() {
+                    $('#registrado').hide()
+                    $('#iniciado').hide()
+                    $('#reg').on('click', function (){
+                    //Registro
+                    user = $('#usuarioEjemplo').val()
+                    //Voy a hacer la consulta ajax para mandarla a la base de datos
+                    pwd = $('#contraseñaEjemplo').val()
+    
+                    request = $.ajax({
+                        url: '/registrar',
+                        type: 'POST',
+                        dataType:'json',
+                        data: {
+                            'usr': user,
+                            'pwd': pwd
+                        }
+                    })
+                    request.done(function (response, status, jqXHR){
+                        if (response.Status = 'OK'){
+                            $('#registrado').show()
+                        } 
+                    })
+                })
+
+                $('#inc').on('click', function (){
+                    //Registro
+                    user = $('#usuarioEjemplo').val()
+                    //Voy a hacer la consulta ajax para mandarla a la base de datos
+                    pwd = $('#contraseñaEjemplo').val()
+    
+                    request = $.ajax({
+                        url: '/iniciar',
+                        type: 'POST',
+                        dataType:'json',
+                        data: {
+                            'usr': user,
+                            'pwd': pwd
+                        }
+                    })
+                    request.done(function (response, status, jqXHR){
+                        if (response.Status = 'OK'){
+                            $('#registrado').hide()
+                            $('#iniciado').show()
+                        } 
+                    })
+                })
+            })
+            //Me tengo que retirar, hasta luego 
+        </script>
+    {% endblock %}
